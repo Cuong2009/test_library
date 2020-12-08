@@ -24,6 +24,10 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
         init();
+        login();
+    }
+
+    public void login () {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         // call api
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
 
 
     }
