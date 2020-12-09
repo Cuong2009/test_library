@@ -11,8 +11,9 @@ import com.example.library.LoginActivity;
 public class MainActivity extends AppCompatActivity {
 
     LoginActivity loginActivity = new LoginActivity();
-    private Button loginButton ;
 
+
+    private Button loginButton ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
