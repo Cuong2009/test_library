@@ -38,7 +38,7 @@ public class FragmentListUser extends Fragment {
         return rootView;
 
     }
-    private void getListUser () {
+    public void getListUser () {
         DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
         demoService.getListUser().enqueue(new Callback<List<User>>() {
             @Override
