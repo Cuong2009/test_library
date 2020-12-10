@@ -1,5 +1,6 @@
 package com.example.library;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +49,7 @@ public class NewDesign extends Fragment {
                 }
                 Toast.makeText(getActivity(), "Success",
                         Toast.LENGTH_SHORT).show();
+                //callLogin(userText.getText().toString(), passWordText.getText().toString());
             }
         });
     }
@@ -54,13 +61,31 @@ public class NewDesign extends Fragment {
             return false;
 
         } else if (pass.equals("")) {
-            Toast.makeText(getActivity(), "Please enter information in the  ",
+            Toast.makeText(getActivity(), "Please enter information in the pass ",
                     Toast.LENGTH_SHORT).show();
             return false;
 
         }
         return true;
 
+    }
+
+    public void callLogin (String user, String pass) {
+        DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
+        demoService.login(user, pass).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(getActivity(), "Success",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), "Login fail ",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
