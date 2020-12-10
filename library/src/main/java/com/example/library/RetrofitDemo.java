@@ -9,7 +9,7 @@ public class RetrofitDemo {
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl("https://5fd17bebb485ea0016eee709.mockapi.io/:endpoint")
+            retrofit = new Retrofit.Builder().baseUrl("https://5fd17bebb485ea0016eee709.mockapi.io")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
