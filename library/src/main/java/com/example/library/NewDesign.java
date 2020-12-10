@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,6 +28,11 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class NewDesign extends Fragment {
+
+    private List<User> users ;
+    private RecyclerView recyclerView;
+    private UserAdapter userAdapter ;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,22 +47,22 @@ public class NewDesign extends Fragment {
         // Required empty public constructor
     }
 
-    public void login () {
-        final EditText userText = (EditText) getActivity().findViewById(R.id.user_edit_text1);
-        final EditText passWordText = (EditText) getActivity().findViewById(R.id.pass_edit_text1);
-        Button loginButton = (Button) getActivity().findViewById(R.id.login_button1);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!validateLogin(userText.getText().toString(), passWordText.getText().toString())) {
-                    return;
-                }
-                Toast.makeText(getActivity(), "Success",
-                        Toast.LENGTH_SHORT).show();
-                //callLogin(userText.getText().toString(), passWordText.getText().toString());
-            }
-        });
-    }
+//    public void login () {
+//        final EditText userText = (EditText) getActivity().findViewById(R.id.user_edit_text1);
+//        final EditText passWordText = (EditText) getActivity().findViewById(R.id.pass_edit_text1);
+//        Button loginButton = (Button) getActivity().findViewById(R.id.login_button1);
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!validateLogin(userText.getText().toString(), passWordText.getText().toString())) {
+//                    return;
+//                }
+//                Toast.makeText(getActivity(), "Success",
+//                        Toast.LENGTH_SHORT).show();
+//                //callLogin(userText.getText().toString(), passWordText.getText().toString());
+//            }
+//        });
+//    }
 
     private boolean validateLogin(String user, String pass) {
         if (user.equals("")) {
@@ -82,6 +92,22 @@ public class NewDesign extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getActivity(), "Login fail ",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void getListUser () {
+        DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
+        demoService.getListUser().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                users = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 Toast.makeText(getActivity(), "Login fail ",
                         Toast.LENGTH_SHORT).show();
             }
@@ -118,7 +144,14 @@ public class NewDesign extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragement_list_user, container, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.list_user);
+        users = new ArrayList<>();
+        getListUser();
+        userAdapter = new UserAdapter(getActivity(), users);
+        recyclerView.setAdapter(userAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_design, container, false);
+        return rootView;
     }
 }
