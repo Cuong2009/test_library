@@ -85,12 +85,13 @@ public class NewDesign extends Fragment {
         demoService.login(account).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
-                if (response.code() == 200 ) {
-                    nextScreen();
-                } else {
-                    Toast.makeText(getActivity(), "Login fail",
-                            Toast.LENGTH_SHORT).show();
-                }
+//                if (response.code() == 200 ) {
+//                    nextScreen();
+//                } else {
+//                    Toast.makeText(getActivity(), "Login fail",
+//                            Toast.LENGTH_SHORT).show();
+//                }
+                nextScreen();
             }
 
             @Override
@@ -100,12 +101,7 @@ public class NewDesign extends Fragment {
     }
 
     private void nextScreen () {
-//        FragmentListUser fg = new FragmentListUser();
-//        getFragmentManager()
-//                .beginTransaction()
-//                .replace(R, fg)
-//                .commit();
-        Intent intent = new Intent(getActivity(), FragmentListUser.class);
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
         startActivity(intent);
     }
 

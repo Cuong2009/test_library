@@ -7,10 +7,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application>
+
         <activity android:name=".HomeActivity">
 
         </activity>
         <activity android:name=".LoginActivity" />
+
     </application>
 
 </manifest>

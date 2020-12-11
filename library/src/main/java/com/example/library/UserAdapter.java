@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,11 +37,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ListUser.Datum user = mHeros.get(position);
+        final ListUser.Datum user = mHeros.get(position);
         Glide.with(mContext)
                 .load(user.getAvatar())
                 .into(holder.mImageHero);
         holder.mTextName.setText(user.first_name + user.last_name);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, user.first_name + user.last_name,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
