@@ -18,9 +18,9 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private Context mContext;
-    private List<User> mHeros;
+    private List<ListUser.Datum> mHeros;
 
-    public UserAdapter(Context mContext, List<User> mHeros) {
+    public UserAdapter(Context mContext, List<ListUser.Datum> mHeros) {
         this.mContext = mContext;
         this.mHeros = mHeros;
     }
@@ -36,11 +36,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = mHeros.get(position);
+        ListUser.Datum user = mHeros.get(position);
         Glide.with(mContext)
-                .load(user.getImage())
+                .load(user.getAvatar())
                 .into(holder.mImageHero);
-        holder.mTextName.setText(user.getName());
+        holder.mTextName.setText(user.first_name + user.last_name);
 
     }
 

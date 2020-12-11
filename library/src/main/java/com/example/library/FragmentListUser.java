@@ -23,6 +23,7 @@ public class FragmentListUser extends Fragment {
     private List<User> users ;
     private RecyclerView recyclerView;
     private UserAdapter userAdapter ;
+    private List<ListUser.Datum> datumList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,27 +32,33 @@ public class FragmentListUser extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.list_user);
         users = new ArrayList<>();
+        datumList = new ArrayList<>();
         getListUser();
-        userAdapter = new UserAdapter(getActivity(), users);
-        recyclerView.setAdapter(userAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return rootView;
 
     }
+
     public void getListUser () {
         DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
-        demoService.getListUser().enqueue(new Callback<List<User>>() {
+        demoService.doGetUserList("2").enqueue(new Callback<ListUser>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                users = response.body();
+            public void onResponse(Call<ListUser> call, Response<ListUser> response) {
+               ListUser listUser = response.body();
+               datumList = listUser.data;
+               DisplayListUser();
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Login fail ",
-                        Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<ListUser> call, Throwable t) {
+                call.cancel();
             }
         });
     }
+    public void DisplayListUser() {
+        userAdapter = new UserAdapter(getActivity(), datumList);
+        recyclerView.setAdapter(userAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
 
 }

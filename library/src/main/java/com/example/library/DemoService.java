@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface DemoService {
 
@@ -16,5 +17,8 @@ public interface DemoService {
 
     @GET("/Demo")
     Call<List<User>> getListUser();
+
+    @GET("/api/users?")
+    Call<ListUser> doGetUserList(@Query("page") String page);
 
 }
