@@ -17,8 +17,8 @@ public interface DemoService {
 //    Call<ResponseBody> login(@Field("user") String user,
 //                             @Field("passWord") String passWord);
 
-    @GET("/Demo")
-    Call<List<User>> getListUser();
+//    @GET("/Demo")
+//    Call<List<User>> getListUser();
 
     @GET("/api/users?")
     Call<ListUser> doGetUserList(@Query("page") String page);

@@ -1,5 +1,7 @@
 package com.example.library;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -28,11 +30,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class NewDesign extends Fragment {
-
-    private List<User> users ;
-    private RecyclerView recyclerView;
-    private UserAdapter userAdapter ;
-
+    public static ProgressDialog waitProgress;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,12 +77,13 @@ public class NewDesign extends Fragment {
     }
 
     public void callLogin (String email, String passWord) {
-
+        showWaitProgress(getActivity());
         Account account = new Account(email, passWord);
         DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
         demoService.login(account).enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
+                hideWaitProgress();
                 if (response.code() == 200 ) {
                     nextScreen();
                 } else {
@@ -95,6 +94,7 @@ public class NewDesign extends Fragment {
 
             @Override
             public void onFailure(Call<Account> call, Throwable t) {
+                hideWaitProgress();
                 call.cancel();
             }});
     }
@@ -102,6 +102,19 @@ public class NewDesign extends Fragment {
     private void nextScreen () {
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         startActivity(intent);
+    }
+
+    public void showWaitProgress(Context context) {
+        hideWaitProgress();
+        waitProgress = new ProgressDialog(context);
+        waitProgress.setMessage("Loading, please wait…");
+        waitProgress.setCancelable(false);
+        waitProgress.show();
+    }
+    public void hideWaitProgress() {
+        if (waitProgress != null && waitProgress.isShowing()) {
+            waitProgress.cancel();
+        }
     }
 
     /**
