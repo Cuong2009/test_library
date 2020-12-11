@@ -19,7 +19,7 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private UserAdapter userAdapter ;
+    private UserAdapter userAdapter;
     private List<ListUser.Datum> datumList;
     public static ProgressDialog waitProgress;
 
@@ -33,12 +33,12 @@ public class HomeActivity extends AppCompatActivity {
         getListUser();
     }
 
-    private void init () {
+    private void init() {
         recyclerView = (RecyclerView) findViewById(R.id.list_user_home);
         datumList = new ArrayList<>();
     }
 
-    public void getListUser () {
+    public void getListUser() {
         showWaitProgress(this);
         DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
         demoService.doGetUserList("2").enqueue(new Callback<ListUser>() {
@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
     public void DisplayListUser() {
         userAdapter = new UserAdapter(this, datumList);
         recyclerView.setAdapter(userAdapter);
@@ -70,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         waitProgress.setCancelable(false);
         waitProgress.show();
     }
+
     public void hideWaitProgress() {
         if (waitProgress != null && waitProgress.isShowing()) {
             waitProgress.cancel();
