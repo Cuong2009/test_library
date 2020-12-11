@@ -91,7 +91,6 @@ public class NewDesign extends Fragment {
                     Toast.makeText(getActivity(), "Login fail",
                             Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
