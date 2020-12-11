@@ -57,9 +57,7 @@ public class NewDesign extends Fragment {
                 if (!validateLogin(userText.getText().toString(), passWordText.getText().toString())) {
                     return;
                 }
-                Toast.makeText(getActivity(), "Success",
-                        Toast.LENGTH_SHORT).show();
-                //callLogin(userText.getText().toString(), passWordText.getText().toString());
+                callLogin(userText.getText().toString(), passWordText.getText().toString());
             }
         });
     }
@@ -80,22 +78,36 @@ public class NewDesign extends Fragment {
 
     }
 
-    public void callLogin (String user, String pass) {
+    public void callLogin (String email, String passWord) {
+
+        Account account = new Account(email, passWord);
         DemoService demoService = RetrofitDemo.getRetrofit().create(DemoService.class);
-        demoService.login(user, pass).enqueue(new Callback<ResponseBody>() {
+        demoService.login(account).enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(getActivity(), "Success",
-                        Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<Account> call, Response<Account> response) {
+                if (response.code() == 200 ) {
+                    nextScreen();
+                } else {
+                    Toast.makeText(getActivity(), "Login fail",
+                            Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getActivity(), "Login fail ",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+            public void onFailure(Call<Account> call, Throwable t) {
+                call.cancel();
+            }});
+    }
+
+    private void nextScreen () {
+//        FragmentListUser fg = new FragmentListUser();
+//        getFragmentManager()
+//                .beginTransaction()
+//                .replace(R, fg)
+//                .commit();
+        Intent intent = new Intent(getActivity(), FragmentListUser.class);
+        startActivity(intent);
     }
 
     /**
