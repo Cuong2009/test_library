@@ -20,7 +20,6 @@ import retrofit2.Response;
 
 public class FragmentListUser extends Fragment {
 
-    private List<User> users ;
     private RecyclerView recyclerView;
     private UserAdapter userAdapter ;
     private List<ListUser.Datum> datumList;
@@ -31,7 +30,6 @@ public class FragmentListUser extends Fragment {
         View rootView = inflater.inflate(R.layout.fragement_list_user, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.list_user);
-        users = new ArrayList<>();
         datumList = new ArrayList<>();
         getListUser();
         return rootView;
